@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>Apollo Staff Portal - Schedule</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+        body {
+            background: #f3f6fb;
+            color: #222;
+        }
+        .top-bar {
+            background: #003f7d;
+            color: #fff;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .top-bar .brand {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .top-bar .brand span {
+            color: #ffd84d;
+        }
+        .top-bar .user-info {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .nav {
+            background: #0056a6;
+            color: #fff;
+            display: flex;
+            padding: 0 24px;
+            gap: 16px;
+        }
+        .nav a {
+            padding: 12px 8px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #fff;
+            opacity: 0.9;
+            position: relative;
+        }
+        .nav a:hover {
+            opacity: 1;
+        }
+        .nav a.active::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 0;
+            height: 3px;
+            background: #ffd84d;
+            border-radius: 3px 3px 0 0;
+        }
+        .wrapper {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 16px 32px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px 20px 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid #dde6f4;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .card-header h2 {
+            font-size: 18px;
+            color: #003f7d;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #e6f0ff;
+            color: #0056a6;
+        }
+        .search-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .search-row input {
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #c4d4f2;
+            min-width: 180px;
+            font-size: 13px;
+        }
+        .search-row input:focus {
+            outline: none;
+            border-color: #0056a6;
+            box-shadow: 0 0 0 1px rgba(0,86,166,0.2);
+        }
+        .table-wrapper {
+            max-height: 520px;
+            overflow: auto;
+            border-radius: 8px;
+            border: 1px solid #d6e0f3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: #fff;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            background: #f0f4ff;
+            z-index: 1;
+        }
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f8;
+            white-space: nowrap;
+        }
+        th {
+            font-weight: 600;
+            color: #003f7d;
+            border-bottom: 1px solid #d6e0f3;
+        }
+        tr:nth-child(even) td {
+            background: #fafbff;
+        }
+        .tag {
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            background: #e2f5ff;
+            color: #0056a6;
+        }
+        /* Login modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .modal {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px 20px 18px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+            border: 1px solid #d6e0f3;
+        }
+        .modal h3 {
+            margin-bottom: 4px;
+            font-size: 18px;
+            color: #003f7d;
+        }
+        .modal p {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .field label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 4px;
+            color: #555;
+        }
+        .field input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #c4d4f2;
+            font-size: 13px;
+        }
+        .field input:focus {
+            outline: none;
+            border-color: #0056a6;
+            box-shadow: 0 0 0 1px rgba(0,86,166,0.2);
+        }
+        .btn-primary {
+            width: 100%;
+            margin-top: 6px;
+            background: #0056a6;
+            border: none;
+            color: #fff;
+            padding: 9px 12px;
+            border-radius: 999px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #00447f;
+        }
+        .hint {
+            margin-top: 6px;
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+        }
+        /* Limited access popup */
+        .toast {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: none;
+            max-width: 260px;
+            z-index: 900;
+        }
+        .toast strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+        .tab-placeholder {
+            padding: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+        }
+        .tab-placeholder span {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="brand">
+            APOLLO <span>STAFF</span>
+        </div>
+        <div class="user-info">
+            Internal Schedule · Demo Access
+        </div>
+    </div>
+    <nav class="nav">
+        <a href="#" class="active" data-tab="schedule">Schedule</a>
+        <a href="#" data-tab="classes">Classes</a>
+        <a href="#" data-tab="teachers">Teachers</a>
+        <a href="#" data-tab="students">Students</a>
+        <a href="#" data-tab="reports">Reports</a>
+        <a href="#" data-tab="settings">Settings</a>
+    </nav>
+
+    <div class="wrapper">
+        <div class="card" id="tab-schedule">
+            <div class="card-header">
+                <h2>Teen Class Schedule</h2>
+                <span class="badge">
+                    • Internal view only
+                </span>
+            </div>
+            <div class="search-row">
+                <input type="text" id="searchClass" placeholder="Tìm theo mã lớp (ví dụ: Teen-128C-Advanced)" />
+                <input type="text" id="searchTeacher" placeholder="Tìm theo giáo viên" />
+            </div>
+            <div class="table-wrapper">
+                <table id="scheduleTable">
+                    <thead>
+                        <tr>
+                            <th>Class Code</th>
+                            <th>Level</th>
+                            <th>Date</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            <tr><td>Teen-128C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>Na#n</td></tr>
+            <tr><td>Teen-128C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>Na#n</td></tr>
+            <tr><td>Teen-129C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>Ms.Trang</td></tr>
+            <tr><td>Teen-129C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>Ms.Trang</td></tr>
+            <tr><td>Teen-130C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>Mrs.Đoàn</td></tr>
+            <tr><td>Teen-130C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>Mrs.Đoàn</td></tr>
+            <tr><td>Teen-131C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>Ms.Thùy</td></tr>
+            <tr><td>Teen-131C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>Ms.Thùy</td></tr>
+            <tr><td>Teen-132C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>Ms.Nguyên</td></tr>
+            <tr><td>Teen-132C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>Ms.Nguyên</td></tr>
+            <tr><td>Teen-133C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>Na#n</td></tr>
+            <tr><td>Teen-133C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>Na#n</td></tr>
+            <tr><td>Teen-134C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>Na#n</td></tr>
+            <tr><td>Teen-134C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>Na#n</td></tr>
+            <tr><td>Teen-135C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>Ms.Bùi Trang</td></tr>
+            <tr><td>Teen-135C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>Ms.Bùi Trang</td></tr>
+            <tr><td>Teen-136C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>Ms.Trang</td></tr>
+            <tr><td>Teen-136C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>Ms.Trang</td></tr>
+            <tr><td>Teen-137C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>Mrs.Đoàn</td></tr>
+            <tr><td>Teen-137C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>Mrs.Đoàn</td></tr>
+            <tr><td>Teen-138C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>Mrs.Hùng</td></tr>
+            <tr><td>Teen-138C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>Mrs.Hùng</td></tr>
+            <tr><td>Teen-139C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>Mrs.Đặng Lâm</td></tr>
+            <tr><td>Teen-139C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>Mrs.Đặng Lâm</td></tr>
+            <tr><td>Teen-140C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>Ms.Bùi Trang</td></tr>
+            <tr><td>Teen-140C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>Ms.Bùi Trang</td></tr>
+            <tr><td>Teen-141C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>Ms.Nguyên</td></tr>
+            <tr><td>Teen-141C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>Ms.Nguyên</td></tr>
+            <tr><td>Teen-142C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>Ms.Thùy</td></tr>
+            <tr><td>Teen-142C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>Ms.Thùy</td></tr>
+            <tr><td>Teen-143C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>Mrs.Đoàn</td></tr>
+            <tr><td>Teen-143C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>Mrs.Đoàn</td></tr>
+            <tr><td>Teen-144C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>Ms.Trần Hà</td></tr>
+            <tr><td>Teen-144C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>Ms.Trần Hà</td></tr>
+            <tr><td>Teen-145C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-145C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-146C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-146C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-147C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-147C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-148C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-148C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-149C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-149C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-150C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-150C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-151C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-151C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-152C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-152C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-153C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-153C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-154C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-154C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-155C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-155C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-156C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-156C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-157C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-157C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-158C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-158C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-159C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-159C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-160C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-160C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-161C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-161C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-162C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-162C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-163C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-163C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-164C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-164C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-165C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-165C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-166C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-166C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-167C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-167C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-168C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-168C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-169C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-169C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-170C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-170C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-171C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-171C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-172C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-172C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-173C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-173C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-174C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-174C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-175C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-175C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Speaking & Listening</td><td>nan</td></tr>
+            <tr><td>Teen-176C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-176C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>English Communication</td><td>nan</td></tr>
+            <tr><td>Teen-177C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 4</td><td>19:00 - 21:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-177C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Critical Thinking</td><td>nan</td></tr>
+            <tr><td>Teen-178C-Advanced</td><td>Advanced</td><td>17/11</td><td>Thứ 6</td><td>17:00 - 19:00</td><td>Reading Skills</td><td>nan</td></tr>
+            <tr><td>Teen-178C-Advanced</td><td>Advanced</td><td>19/11</td><td>Thứ 2</td><td>18:30 - 20:30</td><td>Reading Skills</td><td>nan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" id="tab-placeholder" style="display:none;">
+            <div class="tab-placeholder">
+                Khu vực này đang bị giới hạn quyền trong bản demo.
+                <span>Vui lòng sử dụng tab <strong>Schedule</strong> để xem dữ liệu.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal-backdrop" id="loginModal">
+        <div class="modal">
+            <h3>Staff Sign in</h3>
+            <p>Đăng nhập để xem lịch lớp nội bộ. Đây là bản mô phỏng, bạn có thể nhập bất kỳ thông tin nào.</p>
+            <form id="loginForm">
+                <div class="field">
+                    <label for="username">Email hoặc Staff ID</label>
+                    <input type="text" id="username" placeholder="staff@apollo.vn" required />
+                </div>
+                <div class="field">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="btn-primary">Đăng nhập</button>
+                <div class="hint">Demo only · Không kiểm tra tài khoản thật</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Limited access toast -->
+    <div class="toast" id="toast">
+        <strong>Quyền bị giới hạn</strong>
+        Khu vực này chỉ mở cho một số nhóm tài khoản trong hệ thống chính thức. Bản demo chỉ cho phép xem tab <b>Schedule</b>.
+    </div>
+
+    <script>
+        // Fake login: accept anything and close modal
+        const loginForm = document.getElementById("loginForm");
+        const loginModal = document.getElementById("loginModal");
+
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            loginModal.style.display = "none";
+        });
+
+        // Tabs & access limit
+        const links = document.querySelectorAll(".nav a");
+        const scheduleTab = document.getElementById("tab-schedule");
+        const placeholderTab = document.getElementById("tab-placeholder");
+        const toast = document.getElementById("toast");
+        let toastTimeout = null;
+
+        links.forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const tab = this.getAttribute("data-tab");
+
+                links.forEach(l => l.classList.remove("active"));
+
+                if (tab === "schedule") {
+                    this.classList.add("active");
+                    scheduleTab.style.display = "block";
+                    placeholderTab.style.display = "none";
+                } else {
+                    // Show limited access toast
+                    showToast();
+                    // Keep schedule active
+                    document.querySelector('.nav a[data-tab="schedule"]').classList.add("active");
+                    scheduleTab.style.display = "block";
+                    placeholderTab.style.display = "none";
+                }
+            });
+        });
+
+        function showToast() {
+            toast.style.display = "block";
+            if (toastTimeout) {
+                clearTimeout(toastTimeout);
+            }
+            toastTimeout = setTimeout(() => {
+                toast.style.display = "none";
+            }, 3500);
+        }
+
+        // Simple search on schedule table
+        const searchClassInput = document.getElementById("searchClass");
+        const searchTeacherInput = document.getElementById("searchTeacher");
+        const table = document.getElementById("scheduleTable").getElementsByTagName("tbody")[0];
+
+        function filterTable() {
+            const classQuery = searchClassInput.value.toLowerCase();
+            const teacherQuery = searchTeacherInput.value.toLowerCase();
+            Array.from(table.rows).forEach(row => {
+                const code = row.cells[0].textContent.toLowerCase();
+                const teacher = row.cells[6].textContent.toLowerCase();
+                const matchCode = !classQuery || code.includes(classQuery);
+                const matchTeacher = !teacherQuery || teacher.includes(teacherQuery);
+                row.style.display = matchCode && matchTeacher ? "" : "none";
+            });
+        }
+
+        searchClassInput.addEventListener("input", filterTable);
+        searchTeacherInput.addEventListener("input", filterTable);
+    </script>
+</body>
+</html>
