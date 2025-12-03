@@ -482,9 +482,114 @@
 
         </div>
     </div>
+<!-- PAGE 2: TUẦN SAU -->
+    <div class="timetable-container page" id="page2" style="display:none;">
+        <div class="timetable-header">
+            <div class="timetable-title">LỊCH TUẦN 2</div>
+            <div class="timetable-subtitle">17/02 – 23/02/2025</div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+
+                <!-- THỨ 2 - CA SÁNG -->
+                <tr>
+                    <th>Thứ</th>
+                    <th>Ngày</th>
+                    <th>Giờ</th>
+                    <th>Lớp</th>
+                    <th>Kỹ năng</th>
+                    <th>Giáo viên</th>
+                    <th>Email</th>
+                </tr>
+
+                <tr>
+                    <td><strong>Thứ 2</strong></td>
+                    <td>17/02</td>
+                    <td>09:00 – 10:30</td>
+                    <td><strong>Starters 2A</strong></td>
+                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <!-- THỨ 3 - CA TỐI -->
+                <tr>
+                    <td><strong>Thứ 3</strong></td>
+                    <td>18/02</td>
+                    <td>19:00 – 20:30</td>
+                    <td><strong>Movers 3B</strong></td>
+                    <td><span class="skill-badge skill-reading">Reading</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <!-- THỨ 4 -->
+                <tr>
+                    <td><strong>Thứ 4</strong></td>
+                    <td>19/02</td>
+                    <td>09:00 – 10:30</td>
+                    <td><strong>Starters 2A</strong></td>
+                    <td><span class="skill-badge skill-listening">Listening</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <!-- THỨ 5 - NGHỈ -->
+                <tr class="day-off">
+                    <td><strong>Thứ 5</strong></td>
+                    <td>20/02</td>
+                    <td colspan="5">Nghỉ</td>
+                </tr>
+
+                <!-- THỨ 6 -->
+                <tr>
+                    <td><strong>Thứ 6</strong></td>
+                    <td>21/02</td>
+                    <td>15:00 – 16:30</td>
+                    <td><strong>Movers 3B</strong></td>
+                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <!-- THỨ 7 -->
+                <tr>
+                    <td><strong>Thứ 7</strong></td>
+                    <td>22/02</td>
+                    <td>08:30 – 10:00</td>
+                    <td><strong>Flyers 1C</strong></td>
+                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <!-- CHỦ NHẬT -->
+                <tr>
+                    <td><strong>Chủ nhật</strong></td>
+                    <td>23/02</td>
+                    <td>08:30 – 10:00</td>
+                    <td><strong>Starters 1D</strong></td>
+                    <td><span class="skill-badge skill-listening">Listening</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+     <!-- PAGE 3 (TRỐNG) -->
+    <div class="timetable-container page" id="page3" style="display:none;">
+        <h2 style="text-align:center;">Trang 3 – Chưa có dữ liệu</h2>
+    </div>
 
     <!-- SEARCH SCRIPT -->
     <script>
+        function showPage(num) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = "none");
+            document.getElementById("page" + num).style.display = "block";
+        }
+
         function searchTable() {
             let input = document.getElementById("searchInput");
             let filter = input.value.toLowerCase();
