@@ -6,11 +6,7 @@
     <title>Apollo English – Teacher Timetable</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -31,18 +27,6 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            animation: slideDown 0.5s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .navbar .logo {
@@ -51,8 +35,8 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .navbar ul {
@@ -70,43 +54,11 @@
             transition: all 0.3s ease;
         }
 
-        .navbar ul li::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
-        }
-
-        .navbar ul li:hover {
-            color: #667eea;
-            transform: translateY(-2px);
-        }
-
-        .navbar ul li:hover::after {
-            width: 100%;
-        }
-
         /* SEARCH BAR */
         .search-container {
             margin: 40px auto;
             width: 85%;
             max-width: 800px;
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .search-box {
@@ -121,26 +73,10 @@
             border: none;
             font-size: 16px;
             background: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
-        .search-box input:focus {
-            outline: none;
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .search-box::before {
-            content: "🔍";
-            position: absolute;
-            left: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-        }
-
-        /* TIMETABLE CONTAINER */
+        /* TIMETABLE */
         .timetable-container {
             width: 90%;
             max-width: 1400px;
@@ -148,185 +84,67 @@
             background: white;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
-        .timetable-header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .timetable-title {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .timetable-subtitle {
-            font-size: 18px;
-            color: #718096;
-            font-weight: 500;
-        }
-
-        /* TABLE */
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
+        table { width: 100%; border-collapse: separate; border-spacing: 0; }
         table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg,#667eea,#764ba2);
             color: white;
-            padding: 18px 15px;
+            padding: 18px;
+            text-transform: uppercase;
             font-size: 14px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             position: sticky;
             top: 0;
-            z-index: 10;
-        }
-
-        table th:first-child {
-            border-top-left-radius: 12px;
-        }
-
-        table th:last-child {
-            border-top-right-radius: 12px;
+            z-index: 2;
         }
 
         table td {
-            padding: 16px 15px;
+            padding: 16px;
             border-bottom: 1px solid #e2e8f0;
             font-size: 14px;
-            transition: all 0.3s ease;
         }
 
-        table tr {
-            transition: all 0.3s ease;
-        }
-
-        table tr:hover {
-            background: linear-gradient(90deg, #f7fafc 0%, #edf2f7 100%);
-            transform: scale(1.01);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        table tr:last-child td:first-child {
-            border-bottom-left-radius: 12px;
-        }
-
-        table tr:last-child td:last-child {
-            border-bottom-right-radius: 12px;
-        }
-
-        /* DAY OFF STYLING */
         .day-off {
-            background: linear-gradient(135deg, #fc8181 0%, #f56565 100%) !important;
+            background: linear-gradient(135deg,#fc8181,#f56565) !important;
             color: white !important;
             font-weight: 700;
             text-align: center;
         }
 
-        .day-off td {
-            border: none !important;
-        }
-
-        /* BADGES */
         .skill-badge {
-            display: inline-block;
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            text-transform: uppercase;
         }
 
-        .skill-speaking {
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            color: white;
+        .skill-speaking { background: #48bb78; color: white; }
+        .skill-reading { background: #4299e1; color: white; }
+        .skill-writing { background: #ed8936; color: white; }
+        .skill-listening{ background: #9f7aea; color: white; }
+        .skill-grammar { background: #ed64a6; color: white; }
+
+        .email-link { color:#667eea; text-decoration:none; }
+        .email-link:hover { text-decoration:underline; }
+
+        .page { display:none; }
+
+        .page-btn{
+            padding:10px 18px;
+            border:none;
+            background:white;
+            border-radius:6px;
+            cursor:pointer;
+            margin:0 4px;
+            font-weight:600;
         }
 
-        .skill-reading {
-            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
-            color: white;
+        .page-btn:hover{
+            background:#ddd;
         }
 
-        .skill-writing {
-            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
-            color: white;
-        }
-
-        .skill-listening {
-            background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
-            color: white;
-        }
-
-        .skill-grammar {
-            background: linear-gradient(135deg, #ed64a6 0%, #d53f8c 100%);
-            color: white;
-        }
-
-        /* EMAIL LINK */
-        .email-link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .email-link:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .navbar ul {
-                gap: 15px;
-                font-size: 13px;
-            }
-
-            .timetable-container {
-                padding: 20px;
-                width: 95%;
-            }
-
-            .timetable-title {
-                font-size: 22px;
-            }
-
-            table th, table td {
-                padding: 10px 8px;
-                font-size: 12px;
-            }
-        }
-
-        /* LOADING ANIMATION */
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
     </style>
 </head>
 
@@ -350,298 +168,285 @@
             <input id="searchInput" type="text" placeholder="Tìm lớp, kỹ năng, giáo viên, ngày hoặc thứ..." onkeyup="searchTable()">
         </div>
     </div>
-    <!-- PAGINATION BUTTONS -->
+
+    <!-- PAGINATION -->
     <div style="text-align:center; margin-bottom:20px;">
         <button class="page-btn" onclick="showPage(1)">1</button>
         <button class="page-btn" onclick="showPage(2)">2</button>
         <button class="page-btn" onclick="showPage(3)">3</button>
     </div>
-    <!-- TIMETABLE -->
-    <div class="timetable-container">
+
+    <!-- PAGE 1 — TUẦN 1 -->
+    <div class="timetable-container page" id="page1">
         <div class="timetable-header">
-            <div class="timetable-title">LỊCH DẠY GIÁO VIÊN</div>
-            <div class="timetable-subtitle">Nguyễn Thị Tuyết Mai • Tuần 10/02 – 16/02/2025</div>
+            <div class="timetable-title">LỊCH TUẦN 1</div>
+            <div class="timetable-subtitle">01/12 – 07/12/2025</div>
         </div>
 
         <div class="table-wrapper">
             <table id="timetable">
-    <tr>
-        <th>Thứ</th>
-        <th>Ngày</th>
-        <th>Giờ</th>
-        <th>Lớp</th>
-        <th>Kỹ năng</th>
-        <th>Giáo viên</th>
-        <th>Email</th>
-    </tr>
 
-    <!-- THỨ 2 - NGHỈ -->
-    <tr class="day-off">
-        <td><strong>Thứ 2</strong></td>
-        <td>01/12</td>
-        <td colspan="5">Empty</td>
-    </tr>
+                <tr>
+                    <th>Thứ</th><th>Ngày</th><th>Giờ</th>
+                    <th>Lớp</th><th>Kỹ năng</th><th>Giáo viên</th><th>Email</th>
+                </tr>
 
-    <!-- THỨ 3 -->
-    <tr>
-        <td><strong>Thứ 3</strong></td>
-        <td>02/12</td>
-        <td>10:00 – 11:30</td>
-        <td><strong>Movers 3B</strong></td>
-        <td><span class="skill-badge skill-reading">Reading</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
+                <!-- THỨ 2 -->
+                <tr class="day-off">
+                    <td>Thứ 2</td><td>01/12</td><td colspan="5">Empty</td>
+                </tr>
 
-    <!-- THỨ 4 -->
-    <tr>
-        <td><strong>Thứ 4</strong></td>
-        <td>03/12</td>
-        <td>13:30 – 15:00</td>
-        <td><strong>Starters 2A</strong></td>
-        <td><span class="skill-badge skill-listening">Listening</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
+                <!-- THỨ 3 -->
+                <tr>
+                    <td>Thứ 3</td><td>02/12</td>
+                    <td>10:00 – 11:30</td>
+                    <td><strong>Movers 3B</strong></td>
+                    <td><span class="skill-badge skill-reading">Reading</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
 
-    <!-- THỨ 5 (CHIỀU) -->
-    <tr>
-        <td><strong>Thứ 5</strong></td>
-        <td>04/12</td>
-        <td>14:00 – 15:30</td>
-        <td><strong>Starters 2A</strong></td>
-        <td><span class="skill-badge skill-speaking">Speaking</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
+                <!-- THỨ 4 -->
+                <tr>
+                    <td>Thứ 4</td><td>03/12</td>
+                    <td>13:30 – 15:00</td>
+                    <td><strong>Starters 2A</strong></td>
+                    <td><span class="skill-badge skill-listening">Listening</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
 
-    <!-- THỨ 6 (CHIỀU) -->
-    <tr>
-        <td><strong>Thứ 6</strong></td>
-        <td>05/12</td>
-        <td>15:00 – 16:30</td>
-        <td><strong>Movers 3B</strong></td>
-        <td><span class="skill-badge skill-grammar">Grammar</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
+                <!-- THỨ 5 -->
+                <tr>
+                    <td>Thứ 5</td><td>04/12</td>
+                    <td>14:00 – 15:30</td>
+                    <td><strong>Starters 2A</strong></td>
+                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
 
-    <!-- THỨ 7 -->
-    <tr>
-        <td><strong>Thứ 7</strong></td>
-        <td>15/02</td>
-        <td>08:30 – 10:00</td>
-        <td><strong>Flyers 1C</strong></td>
-        <td><span class="skill-badge skill-speaking">Speaking</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Thứ 7</strong></td>
-        <td>15/02</td>
-        <td>14:00 – 15:30</td>
-        <td><strong>KET Prep 4A</strong></td>
-        <td><span class="skill-badge skill-writing">Writing</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Thứ 7</strong></td>
-        <td>15/02</td>
-        <td>20:00 – 21:30</td>
-        <td><strong>Communication Kids</strong></td>
-        <td><span class="skill-badge skill-speaking">Speaking</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
+                <!-- THỨ 6 -->
+                <tr>
+                    <td>Thứ 6</td><td>05/12</td>
+                    <td>15:00 – 16:30</td>
+                    <td><strong>Movers 3B</strong></td>
+                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
 
-    <!-- CHỦ NHẬT -->
-    <tr>
-        <td><strong>Chủ nhật</strong></td>
-        <td>16/02</td>
-        <td>08:30 – 10:00</td>
-        <td><strong>Starters 1D</strong></td>
-        <td><span class="skill-badge skill-listening">Listening</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Chủ nhật</strong></td>
-        <td>16/02</td>
-        <td>10:15 – 11:45</td>
-        <td><strong>Movers 2A</strong></td>
-        <td><span class="skill-badge skill-reading">Reading</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Chủ nhật</strong></td>
-        <td>16/02</td>
-        <td>19:00 – 20:30</td>
-        <td><strong>Flyers 1C</strong></td>
-        <td><span class="skill-badge skill-grammar">Grammar</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-</table>
+                <!-- THỨ 7 -->
+                <tr>
+                    <td>Thứ 7</td><td>06/12</td>
+                    <td>08:30 – 10:00</td>
+                    <td><strong>Flyers 1C</strong></td>
+                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
 
+                <tr>
+                    <td>Thứ 7</td><td>06/12</td>
+                    <td>14:00 – 15:30</td>
+                    <td><strong>KET Prep 4A</strong></td>
+                    <td><span class="skill-badge skill-writing">Writing</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <tr>
+                    <td>Thứ 7</td><td>06/12</td>
+                    <td>20:00 – 21:30</td>
+                    <td><strong>Communication Kids</strong></td>
+                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <!-- CHỦ NHẬT -->
+                <tr>
+                    <td>Chủ nhật</td><td>07/12</td>
+                    <td>08:30 – 10:00</td>
+                    <td><strong>Starters 1D</strong></td>
+                    <td><span class="skill-badge skill-listening">Listening</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <tr>
+                    <td>Chủ nhật</td><td>07/12</td>
+                    <td>10:15 – 11:45</td>
+                    <td><strong>Movers 2A</strong></td>
+                    <td><span class="skill-badge skill-reading">Reading</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <tr>
+                    <td>Chủ nhật</td><td>07/12</td>
+                    <td>19:00 – 20:30</td>
+                    <td><strong>Flyers 1C</strong></td>
+                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+            </table>
         </div>
     </div>
-<!-- PAGE 2: TUẦN SAU -->
-    <div class="timetable-container page" id="page2" style="display:none;">
+
+    <!-- PAGE 2 — TUẦN 2 -->
+    <div class="timetable-container page" id="page2">
         <div class="timetable-header">
             <div class="timetable-title">LỊCH TUẦN 2</div>
-            <div class="timetable-subtitle">17/02 – 23/02/2025</div>
+            <div class="timetable-subtitle">08/12 – 14/12/2025</div>
         </div>
 
         <div class="table-wrapper">
             <table>
 
-                <!-- THỨ 2 - CA SÁNG -->
                 <tr>
-                    <th>Thứ</th>
-                    <th>Ngày</th>
-                    <th>Giờ</th>
-                    <th>Lớp</th>
-                    <th>Kỹ năng</th>
-                    <th>Giáo viên</th>
-                    <th>Email</th>
+                    <th>Thứ</th><th>Ngày</th><th>Giờ</th>
+                    <th>Lớp</th><th>Kỹ năng</th><th>Giáo viên</th><th>Email</th>
                 </tr>
 
+                <!-- THỨ 2 – DẠY SÁNG -->
                 <tr>
-                    <td><strong>Thứ 2</strong></td>
-                    <td>17/02</td>
+                    <td>Thứ 2</td>
+                    <td>08/12</td>
                     <td>09:00 – 10:30</td>
                     <td><strong>Starters 2A</strong></td>
                     <td><span class="skill-badge skill-speaking">Speaking</span></td>
                     <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
                 </tr>
 
-                <!-- THỨ 3 - CA TỐI -->
+                <!-- THỨ 3 – DẠY TỐI -->
                 <tr>
-                    <td><strong>Thứ 3</strong></td>
-                    <td>18/02</td>
+                    <td>Thứ 3</td>
+                    <td>09/12</td>
                     <td>19:00 – 20:30</td>
                     <td><strong>Movers 3B</strong></td>
                     <td><span class="skill-badge skill-reading">Reading</span></td>
                     <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
                 </tr>
 
                 <!-- THỨ 4 -->
                 <tr>
-                    <td><strong>Thứ 4</strong></td>
-                    <td>19/02</td>
-                    <td>09:00 – 10:30</td>
+                    <td>Thứ 4</td>
+                    <td>10/12</td>
+                    <td>13:30 – 15:00</td>
                     <td><strong>Starters 2A</strong></td>
                     <td><span class="skill-badge skill-listening">Listening</span></td>
                     <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
                 </tr>
 
-                <!-- THỨ 5 - NGHỈ -->
+                <!-- THỨ 5 – NGHỈ -->
                 <tr class="day-off">
-                    <td><strong>Thứ 5</strong></td>
-                    <td>20/02</td>
+                    <td>Thứ 5</td>
+                    <td>11/12</td>
                     <td colspan="5">Nghỉ</td>
                 </tr>
 
                 <!-- THỨ 6 -->
                 <tr>
-                    <td><strong>Thứ 6</strong></td>
-                    <td>21/02</td>
+                    <td>Thứ 6</td>
+                    <td>12/12</td>
                     <td>15:00 – 16:30</td>
                     <td><strong>Movers 3B</strong></td>
                     <td><span class="skill-badge skill-grammar">Grammar</span></td>
                     <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
                 </tr>
 
-                <!-- THỨ 7 -->
-    <tr>
-        <td><strong>Thứ 7</strong></td>
-        <td>15/02</td>
-        <td>08:30 – 10:00</td>
-        <td><strong>Flyers 1C</strong></td>
-        <td><span class="skill-badge skill-speaking">Speaking</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Thứ 7</strong></td>
-        <td>15/02</td>
-        <td>14:00 – 15:30</td>
-        <td><strong>KET Prep 4A</strong></td>
-        <td><span class="skill-badge skill-writing">Writing</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Thứ 7</strong></td>
-        <td>15/02</td>
-        <td>20:00 – 21:30</td>
-        <td><strong>Communication Kids</strong></td>
-        <td><span class="skill-badge skill-speaking">Speaking</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
+                <!-- THỨ 7 (GIỮ NGUYÊN) -->
+                <tr>
+                    <td>Thứ 7</td>
+                    <td>13/12</td>
+                    <td>08:30 – 10:00</td>
+                    <td><strong>Flyers 1C</strong></td>
+                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
 
-    <!-- CHỦ NHẬT -->
-    <tr>
-        <td><strong>Chủ nhật</strong></td>
-        <td>16/02</td>
-        <td>08:30 – 10:00</td>
-        <td><strong>Starters 1D</strong></td>
-        <td><span class="skill-badge skill-listening">Listening</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Chủ nhật</strong></td>
-        <td>16/02</td>
-        <td>10:15 – 11:45</td>
-        <td><strong>Movers 2A</strong></td>
-        <td><span class="skill-badge skill-reading">Reading</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
-    <tr>
-        <td><strong>Chủ nhật</strong></td>
-        <td>16/02</td>
-        <td>19:00 – 20:30</td>
-        <td><strong>Flyers 1C</strong></td>
-        <td><span class="skill-badge skill-grammar">Grammar</span></td>
-        <td>Nguyễn Thị Tuyết Mai</td>
-        <td><a href="mailto:nguyenthituyetmaiNTM0925@apollo.edu.vn" class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-    </tr>
+                <tr>
+                    <td>Thứ 7</td>
+                    <td>13/12</td>
+                    <td>14:00 – 15:30</td>
+                    <td><strong>KET Prep 4A</strong></td>
+                    <td><span class="skill-badge skill-writing">Writing</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <tr>
+                    <td>Thứ 7</td>
+                    <td>13/12</td>
+                    <td>20:00 – 21:30</td>
+                    <td><strong>Communication Kids</strong></td>
+                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <!-- CHỦ NHẬT -->
+                <tr>
+                    <td>Chủ nhật</td>
+                    <td>14/12</td>
+                    <td>08:30 – 10:00</td>
+                    <td><strong>Starters 1D</strong></td>
+                    <td><span class="skill-badge skill-listening">Listening</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <tr>
+                    <td>Chủ nhật</td>
+                    <td>14/12</td>
+                    <td>10:15 – 11:45</td>
+                    <td><strong>Movers 2A</strong></td>
+                    <td><span class="skill-badge skill-reading">Reading</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
+
+                <tr>
+                    <td>Chủ nhật</td>
+                    <td>14/12</td>
+                    <td>19:00 – 20:30</td>
+                    <td><strong>Flyers 1C</strong></td>
+                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
+                    <td>Nguyễn Thị Tuyết Mai</td>
+                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
+                </tr>
 
             </table>
         </div>
     </div>
-     <!-- PAGE 3 (TRỐNG) -->
-    <div class="timetable-container page" id="page3" style="display:none;">
+
+    <!-- PAGE 3 (TRỐNG) -->
+    <div class="timetable-container page" id="page3">
         <h2 style="text-align:center;">Trang 3 – Chưa có dữ liệu</h2>
     </div>
 
-    <!-- SEARCH SCRIPT -->
+    <!-- JS -->
     <script>
         function showPage(num) {
             document.querySelectorAll('.page').forEach(p => p.style.display = "none");
             document.getElementById("page" + num).style.display = "block";
         }
 
-        function searchTable() {
-            let input = document.getElementById("searchInput");
-            let filter = input.value.toLowerCase();
-            let table = document.getElementById("timetable");
-            let tr = table.getElementsByTagName("tr");
+        showPage(1); // hiện trang 1 ngay khi load
 
-            for (let i = 1; i < tr.length; i++) {
-                let row = tr[i];
-                let text = row.innerText.toLowerCase();
-                row.style.display = text.includes(filter) ? "" : "none";
-            }
+        function searchTable() {
+            let filter = document.getElementById("searchInput").value.toLowerCase();
+            document.querySelectorAll("table tr").forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+            });
         }
     </script>
 
