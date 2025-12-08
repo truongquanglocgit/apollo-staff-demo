@@ -147,6 +147,43 @@
 
     </style>
 </head>
+<script>
+async function loadSheet() {
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTY5x85A0MqPbBoK0WPko8WYGjyuAWn7mIXiVJ6dGvXMtShWWyLB9Y5hnZU6YHT4hh60uQSSL5JPESB/pub?output=csv"; // link CSV của bạn
+
+    const res = await fetch(url);
+    const csv = await res.text();
+
+    const rows = csv.split("\n").map(r => r.split(","));
+
+    let html = `
+        <tr>
+            <th>Thứ</th><th>Ngày</th><th>Giờ</th>
+            <th>Lớp</th><th>Kỹ năng</th><th>Giáo viên</th><th>Email</th>
+        </tr>
+    `;
+
+    for (let i = 1; i < rows.length; i++) {
+        let r = rows[i];
+        html += `
+            <tr>
+                <td>${r[0]}</td>
+                <td>${r[1]}</td>
+                <td>${r[2]}</td>
+                <td><strong>${r[3]}</strong></td>
+                <td>${r[4]}</td>
+                <td>${r[5]}</td>
+                <td><a class="email-link">${r[6]}</a></td>
+            </tr>
+        `;
+    }
+
+    document.querySelector("#timetable").innerHTML = html;
+}
+
+loadSheet();
+</script>
+
 
 <body>
 
