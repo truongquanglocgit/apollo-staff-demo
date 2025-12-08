@@ -1,595 +1,555 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apollo English – Teacher Timetable</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apollo English – Teacher Timetable</title>
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+      color:#2d3748;
+      min-height:100vh;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #2d3748;
-        }
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      padding:18px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 20px rgba(0,0,0,0.08);
+      position:sticky; top:0; z-index:50;
+    }
+    .logo { font-size:22px; font-weight:900;
+      background: linear-gradient(135deg,#667eea,#764ba2);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      text-transform:uppercase; letter-spacing:1px;
+    }
+    .navbar ul { list-style:none; display:flex; gap:24px; }
+    .navbar li { cursor:pointer; font-weight:600; color:#4a5568; }
 
-        /* NAVBAR */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    /* FORM AREA */
+    .form-bar {
+      width:90%; max-width:1200px; margin:18px auto; display:flex;
+      gap:18px; align-items:center; background:rgba(255,255,255,0.95);
+      padding:14px; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.08);
+    }
+    .form-row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    label { font-weight:700; font-size:13px; color:#344054; margin-right:6px; }
+    select, input[type="month"], input[type="text"], input[type="email"] {
+      padding:8px 10px; border-radius:8px; border:1px solid #e6e9ef;
+      font-size:14px; min-width:160px; background:white;
+    }
+    button.primary {
+      background:#667eea; color:white; border:none; padding:10px 14px;
+      border-radius:10px; cursor:pointer; font-weight:700;
+      box-shadow:0 6px 18px rgba(102,126,234,0.24);
+    }
 
-        .navbar .logo {
-            font-size: 28px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+    /* SEARCH BAR */
+    .search-container { width:90%; max-width:800px; margin:18px auto; }
+    .search-box input {
+      width:100%; padding:12px 18px; border-radius:50px; border:none;
+      font-size:14px; background:white; box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    }
 
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 35px;
-        }
+    /* TIMETABLE */
+    .timetable-container {
+      width:90%; max-width:1400px; margin:22px auto 60px; background:white;
+      padding:28px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.12);
+    }
+    table { width:100%; border-collapse:separate; border-spacing:0; }
+    th { background:linear-gradient(135deg,#667eea,#764ba2); color:white;
+         padding:14px; text-transform:uppercase; font-size:13px; position:sticky; top:0; z-index:2; }
+    td { padding:12px; border-bottom:1px solid #eef2ff; font-size:14px; }
+    .day-off { background:linear-gradient(135deg,#fc8181,#f56565); color:white; font-weight:800; text-align:center; }
 
-        .navbar ul li {
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            color: #4a5568;
-            position: relative;
-            transition: all 0.3s ease;
-        }
+    .skill-badge { padding:6px 12px; border-radius:18px; font-size:12px; font-weight:700; }
+    .skill-speaking { background:#48bb78; color:white; }
+    .skill-reading  { background:#4299e1; color:white; }
+    .skill-writing  { background:#ed8936; color:white; }
+    .skill-listening{ background:#9f7aea; color:white; }
+    .skill-grammar  { background:#ed64a6; color:white; }
 
-        /* SEARCH BAR */
-        .search-container {
-            margin: 40px auto;
-            width: 85%;
-            max-width: 800px;
-        }
+    .email-link { color:#667eea; text-decoration:none; }
+    .email-link:hover { text-decoration:underline; }
 
-        .search-box {
-            position: relative;
-            width: 100%;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 18px 25px 18px 55px;
-            border-radius: 50px;
-            border: none;
-            font-size: 16px;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        /* TIMETABLE */
-        .timetable-container {
-            width: 90%;
-            max-width: 1400px;
-            margin: 0 auto 60px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
-
-        table { width: 100%; border-collapse: separate; border-spacing: 0; }
-        table th {
-            background: linear-gradient(135deg,#667eea,#764ba2);
-            color: white;
-            padding: 18px;
-            text-transform: uppercase;
-            font-size: 14px;
-            font-weight: 700;
-            position: sticky;
-            top: 0;
-            z-index: 2;
-        }
-
-        table td {
-            padding: 16px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 14px;
-        }
-
-        .day-off {
-            background: linear-gradient(135deg,#fc8181,#f56565) !important;
-            color: white !important;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .skill-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .skill-speaking { background: #48bb78; color: white; }
-        .skill-reading { background: #4299e1; color: white; }
-        .skill-writing { background: #ed8936; color: white; }
-        .skill-listening{ background: #9f7aea; color: white; }
-        .skill-grammar { background: #ed64a6; color: white; }
-
-        .email-link { color:#667eea; text-decoration:none; }
-        .email-link:hover { text-decoration:underline; }
-
-        .page { display:none; }
-
-        .page-btn{
-            padding:10px 18px;
-            border:none;
-            background:white;
-            border-radius:6px;
-            cursor:pointer;
-            margin:0 4px;
-            font-weight:600;
-        }
-
-        .page-btn:hover{
-            background:#ddd;
-        }
-
-    </style>
+    /* small screens */
+    @media (max-width:850px){
+      .form-bar { flex-direction:column; align-items:flex-start; gap:12px; }
+      .form-row { width:100%; }
+      select, input { min-width:120px; width:100%; }
+    }
+  </style>
 </head>
-   
 
-<script>
-// Hàm sinh danh sách tuần trong tháng
-function generateWeeks(year, month) {
-    const weeks = [];
-    const firstDay = new Date(year, month - 1, 1);
-    const lastDay = new Date(year, month, 0);
+<body>
 
-    let start = new Date(firstDay);
-    let end = new Date(firstDay);
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="logo">APOLLO ENGLISH</div>
+    <ul>
+      <li>Home</li><li>Classes</li><li>Subjects</li><li>Teachers</li><li>Schedule</li>
+    </ul>
+  </div>
 
-    while (start <= lastDay) {
-        // Mỗi tuần = 7 ngày
-        end = new Date(start);
+  <!-- FORM (placed under navbar as requested - Option A) -->
+  <div class="form-bar" role="region" aria-label="Form chọn tuần và nhập công việc">
+    <div class="form-row" style="align-items:center;">
+      <label for="month">Chọn tháng</label>
+      <input type="month" id="month" />
+
+      <label for="week" style="margin-left:8px;">Chọn tuần</label>
+      <select id="week"></select>
+    </div>
+
+    <div style="flex:1"></div>
+
+    <div class="form-row" style="align-items:center;">
+      <label for="ten">Tên</label>
+      <input id="ten" type="text" placeholder="Tên công việc" />
+
+      <label for="nguoithuchien">Người</label>
+      <input id="nguoithuchien" type="text" placeholder="Người thực hiện" />
+
+      <label for="trangthai">Trạng thái</label>
+      <input id="trangthai" type="text" placeholder="VD: Planned / Doing / Done" />
+
+      <button class="primary" id="submitBtn">Gửi</button>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-container">
+    <div class="search-box">
+      <input id="searchInput" type="text" placeholder="Tìm lớp, kỹ năng, giáo viên, ngày hoặc thứ..." />
+    </div>
+  </div>
+
+  <!-- TIMETABLE -->
+  <div class="timetable-container" id="timetableCard">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div>
+        <div style="font-weight:900; font-size:20px;">LỊCH TUẦN</div>
+        <div id="timetableSubtitle" style="color:#596682; margin-top:6px;">—</div>
+      </div>
+      <div>
+        <button class="primary" id="refreshBtn" style="background:#4caf50;">Tải lại dữ liệu</button>
+      </div>
+    </div>
+
+    <div class="table-wrapper" style="overflow:auto;">
+      <table id="timetable">
+        <thead>
+          <tr>
+            <th>Thứ</th><th>Ngày</th><th>Giờ</th>
+            <th>Lớp</th><th>Kỹ năng</th><th>Giáo viên</th><th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="timetableBody">
+          <!-- rows sẽ được render bằng JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Minimal footer -->
+  <div style="text-align:center; color:#e6e6e6; margin-bottom:40px;">&nbsp;</div>
+
+  <!-- SCRIPTS -->
+  <script>
+    /*******************************
+     *  CONFIG
+     *******************************/
+    // CSV nguồn: mình sẽ biến link pubhtml của bạn sang pub?output=csv
+    const SOURCE_PUBHTML = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTY5x85A0MqPbBoK0WPko8WYGjyuAWn7mIXiVJ6dGvXMtShWWyLB9Y5hnZU6YHT4hh60uQSSL5JPESB/pubhtml";
+    const CSV_URL = SOURCE_PUBHTML.replace(/\/pubhtml(\?.*)?$/i, "/pub?output=csv");
+    // Nếu bạn có API để POST, đặt URL ở đây (không bắt buộc)
+    const API_URL = ""; // <-- nếu rỗng: submit sẽ show preview và copy JSON
+
+    /*******************************
+     *  Utility: robust CSV parser
+     *  - support fields quoted with " and commas inside quotes
+     *******************************/
+    function parseCSV(text) {
+      const rows = [];
+      let cur = "";
+      let row = [];
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const nxt = text[i+1];
+
+        if (ch === '"') {
+          if (inQuotes && nxt === '"') { // escaped quote
+            cur += '"';
+            i++; // skip next
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === ',' && !inQuotes) {
+          row.push(cur);
+          cur = "";
+        } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+          // handle CRLF and LF
+          if (cur !== "" || cur === "") {
+            row.push(cur);
+            rows.push(row);
+            row = [];
+            cur = "";
+          }
+          // skip possible \r\n sequence: loop will handle
+        } else {
+          cur += ch;
+        }
+      }
+      // last field
+      if (cur !== "" || inQuotes || row.length > 0) {
+        row.push(cur);
+        rows.push(row);
+      }
+      // filter out possible trailing empty row
+      return rows.filter(r => !(r.length === 1 && r[0] === ""));
+    }
+
+    /*******************************
+     *  Week generator (by month)
+     *******************************/
+    function generateWeeksForMonth(year, month) {
+      // month: 1..12
+      const weeks = [];
+      const first = new Date(year, month - 1, 1);
+      const last = new Date(year, month, 0); // last day of month
+
+      let start = new Date(first);
+      let weekIndex = 1;
+      while (start <= last) {
+        const end = new Date(start);
         end.setDate(end.getDate() + 6);
-
-        // Nếu vượt quá cuối tháng thì giới hạn lại
-        if (end > lastDay) end = lastDay;
-
-        const weekNumber = weeks.length + 1;
+        if (end > last) end.setDate(last.getDate());
 
         const startStr = start.toLocaleDateString("vi-VN");
         const endStr = end.toLocaleDateString("vi-VN");
 
         weeks.push({
-            id: weekNumber,
-            label: `Tuần ${weekNumber} / Tháng ${month} (${startStr} – ${endStr})`
+          id: weekIndex,
+          label: `Tuần ${weekIndex} / Tháng ${String(month).padStart(2,"0")} (${startStr} – ${endStr})`,
+          start: start,
+          end: end
         });
 
-        // Nhảy sang tuần tiếp theo
+        // next week
         start = new Date(end);
         start.setDate(start.getDate() + 1);
+        weekIndex++;
+      }
+      return weeks;
     }
 
-    return weeks;
-}
+    /*******************************
+     *  Render functions
+     *******************************/
+    function renderWeekDropdown(monthValue) {
+      const [y, m] = monthValue.split("-").map(s => parseInt(s,10));
+      const weeks = generateWeeksForMonth(y, m);
+      const select = document.getElementById("week");
+      select.innerHTML = "";
+      weeks.forEach(w => {
+        const opt = document.createElement("option");
+        opt.value = w.id; // use numeric id for filtering
+        opt.textContent = w.label;
+        opt.dataset.start = w.start.toISOString();
+        opt.dataset.end = w.end.toISOString();
+        select.appendChild(opt);
+      });
 
-// Hàm render dropdown tuần
-function updateWeekDropdown() {
-    const monthInput = document.getElementById("month").value;
-    const [year, month] = monthInput.split("-");
+      // Update subtitle for first week
+      updateSubtitle();
+    }
 
-    const weeks = generateWeeks(parseInt(year), parseInt(month));
-    const weekSelect = document.getElementById("week");
+    function updateSubtitle() {
+      const sel = document.getElementById("week");
+      const subtitle = document.getElementById("timetableSubtitle");
+      const opt = sel.options[sel.selectedIndex];
+      if (opt) {
+        subtitle.textContent = opt.textContent;
+      } else {
+        subtitle.textContent = "—";
+      }
+    }
 
-    weekSelect.innerHTML = ""; // Xóa hiện tại
+    /*******************************
+     *  Load CSV, parse, keep rows
+     *******************************/
+    let CSV_ROWS = []; // parsed rows (array of arrays)
+    let CSV_HEADER = []; // header row
+    let COL_INDEX = {};  // map header -> index
 
-    weeks.forEach(w => {
-        const option = document.createElement("option");
-        option.value = w.label;
-        option.textContent = w.label;
-        weekSelect.appendChild(option);
-    });
-}
+    async function fetchAndParseCSV() {
+      try {
+        const r = await fetch(CSV_URL, {cache: "no-store"});
+        if (!r.ok) throw new Error("Không tải được CSV: " + r.status);
+        const text = await r.text();
+        const rows = parseCSV(text);
+        if (rows.length === 0) {
+          console.warn("CSV rỗng");
+          return;
+        }
+        CSV_HEADER = rows[0].map(h => (h || "").trim());
+        CSV_ROWS = rows.slice(1);
+        // build index (case-insensitive)
+        COL_INDEX = {};
+        CSV_HEADER.forEach((h, i) => {
+          const key = (h || "").trim().toLowerCase();
+          COL_INDEX[key] = i;
+        });
+      } catch (e) {
+        console.error("Lỗi khi tải/parse CSV:", e);
+        alert("Không tải được dữ liệu từ Google Sheets. Kiểm tra link hoặc quyền chia sẻ.");
+      }
+    }
 
-// Khi chọn tháng → cập nhật tuần
-document.getElementById("month").addEventListener("change", updateWeekDropdown);
+    /*******************************
+     *  Convert a row array into object with known fields
+     *******************************/
+    function rowToObject(row) {
+      // Try to map columns: tìm tên phù hợp
+      const get = names => {
+        for (const n of names) {
+          const idx = COL_INDEX[n.toLowerCase()];
+          if (typeof idx !== "undefined") return (row[idx] || "").trim();
+        }
+        return "";
+      };
 
-// Khởi tạo lúc load trang
-updateWeekDropdown();
-</script>
+      return {
+        tuan: get(["tuần","tuan","week","weekid","mã tuần","ma tuan"]) || "", // prefer numeric id
+        thu: get(["thứ","thu","day"]) || row[1] || "",
+        ngay: get(["ngày","ngay","date"]) || row[2] || "",
+        gio: get(["giờ","gio","time"]) || row[3] || "",
+        lop: get(["lớp","lop","class"]) || row[4] || "",
+        kyNang: get(["kỹ năng","ky nang","skill"]) || row[5] || "",
+        giaoVien: get(["giáo viên","giao vien","teacher"]) || row[6] || "",
+        email: get(["email","e-mail"]) || row[7] || ""
+      };
+    }
 
-<script>
-function submitForm() {
-    const ten = document.getElementById("ten").value;
-    const noidung = document.getElementById("noidung").value;
-    const nguoithuchien = document.getElementById("nguoithuchien").value;
-    const trangthai = document.getElementById("trangthai").value;
-    const tuan = document.getElementById("week").value; // LẤY GIÁ TRỊ TUẦN
+    /*******************************
+     *  Render timetable body from CSV_ROWS filtered by weekId
+     *******************************/
+    function renderTimetableForWeek(weekId) {
+      const tbody = document.getElementById("timetableBody");
+      tbody.innerHTML = "";
 
-    const bodyData = {
+      // filter rows whose tuan column matches weekId
+      const filtered = CSV_ROWS.filter(r => {
+        const obj = rowToObject(r);
+        // try numeric compare
+        const v = obj.tuan.replace(/[^0-9]/g, "");
+        if (v) return parseInt(v,10) === parseInt(weekId,10);
+        // fallback: if no tuan col, try date range match using week start/end
+        return true;
+      }).map(rowToObject);
+
+      // if CSV had no 'tuần' column (or we couldn't match), try to match by date range:
+      // extract start/end from selected week option
+      const weekSelect = document.getElementById("week");
+      const selOpt = weekSelect.options[weekSelect.selectedIndex];
+      let start = null, end = null;
+      if (selOpt && selOpt.dataset.start) {
+        start = new Date(selOpt.dataset.start);
+        end = new Date(selOpt.dataset.end);
+      }
+
+      const finalRows = filtered.filter(obj => {
+        if ((!obj.tuan || obj.tuan === "") && start && end && obj.ngay) {
+          // try parse obj.ngay (format dd/mm or dd/mm/yyyy)
+          const d = parseDateVi(obj.ngay);
+          if (d) return d >= start && d <= end;
+        }
+        return true;
+      });
+
+      if (finalRows.length === 0) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td colspan="7" style="text-align:center; color:#7b8aa3;">Không có dữ liệu cho tuần này</td>`;
+        tbody.appendChild(tr);
+        return;
+      }
+
+      finalRows.forEach(obj => {
+        const tr = document.createElement("tr");
+        // if 'Empty' in giờ => style day-off
+        if ((obj.gio || "").toLowerCase().includes("empty") || (obj.lop || "").toLowerCase().trim() === "") {
+          tr.classList.add("day-off");
+          tr.innerHTML = `<td>${escapeHtml(obj.thu || "")}</td>
+                          <td>${escapeHtml(obj.ngay || "")}</td>
+                          <td colspan="5">${escapeHtml(obj.lop || "Empty")}</td>`;
+        } else {
+          tr.innerHTML = `<td>${escapeHtml(obj.thu || "")}</td>
+                        <td>${escapeHtml(obj.ngay || "")}</td>
+                        <td>${escapeHtml(obj.gio || "")}</td>
+                        <td><strong>${escapeHtml(obj.lop || "")}</strong></td>
+                        <td>${renderSkillBadge(obj.kyNang || "")}</td>
+                        <td>${escapeHtml(obj.giaoVien || "")}</td>
+                        <td><a class="email-link" href="mailto:${encodeURIComponent(obj.email || "")}">${escapeHtml(obj.email || "")}</a></td>`;
+        }
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderSkillBadge(skill) {
+      const s = (skill || "").toLowerCase();
+      const map = {
+        "speaking":"skill-speaking",
+        "listening":"skill-listening",
+        "reading":"skill-reading",
+        "writing":"skill-writing",
+        "grammar":"skill-grammar"
+      };
+      const key = Object.keys(map).find(k => s.includes(k)) || null;
+      if (key) {
+        return `<span class="skill-badge ${map[key]}">${escapeHtml(capitalize(skill))}</span>`;
+      }
+      if (skill) return `<span class="skill-badge" style="background:#e2e8f0;color:#1f2937;">${escapeHtml(skill)}</span>`;
+      return "";
+    }
+
+    /*******************************
+     *  Helpers
+     *******************************/
+    function escapeHtml(s) {
+      if (!s) return "";
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function capitalize(s) {
+      if (!s) return "";
+      return s.split(" ").map(p => p.charAt(0).toUpperCase()+p.slice(1)).join(" ");
+    }
+
+    function parseDateVi(s) {
+      // supports dd/mm or dd/mm/yyyy
+      if (!s) return null;
+      const m = s.trim().match(/(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/);
+      if (!m) return null;
+      const day = parseInt(m[1],10), mon = parseInt(m[2],10);
+      let year = m[3] ? parseInt(m[3],10) : (new Date()).getFullYear();
+      if (year < 100) year += 2000;
+      return new Date(year, mon - 1, day);
+    }
+
+    /*******************************
+     *  Search filter (client-side)
+     *******************************/
+    function applySearchFilter() {
+      const q = (document.getElementById("searchInput").value || "").toLowerCase();
+      document.querySelectorAll("#timetableBody tr").forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(q) ? "" : "none";
+      });
+    }
+
+    /*******************************
+     *  Submit form
+     *******************************/
+    async function submitForm() {
+      const ten = document.getElementById("ten").value.trim();
+      const noidung = ""; // we don't have a dedicated content input in this form - kept for compatibility
+      const nguoithuchien = document.getElementById("nguoithuchien").value.trim();
+      const trangthai = document.getElementById("trangthai").value.trim();
+      const weekSelect = document.getElementById("week");
+      const weekId = weekSelect.value;
+      const weekLabel = weekSelect.options[weekSelect.selectedIndex].textContent || "";
+
+      const bodyData = {
         ten_cong_viec: ten,
         noi_dung: noidung,
         nguoi_thuc_hien: nguoithuchien,
         trang_thai: trangthai,
-        tuan: tuan   // GỬI LÊN API
-    };
+        tuan_id: weekId,
+        tuan_label: weekLabel,
+        timestamp: new Date().toISOString()
+      };
 
-    fetch("URL_API_CUA_BAN", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bodyData)
-    })
-    .then(res => res.json())
-    .then(res => console.log("Đã gửi:", res))
-    .catch(err => console.error(err));
-}
-</script>
-<script>
-async function loadSheet() {
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTY5x85A0MqPbBoK0WPko8WYGjyuAWn7mIXiVJ6dGvXMtShWWyLB9Y5hnZU6YHT4hh60uQSSL5JPESB/pub?output=csv"; // link CSV của bạn
+      if (!API_URL) {
+        // show preview and copy to clipboard (safe default)
+        console.log("Preview body:", bodyData);
+        try {
+          await navigator.clipboard.writeText(JSON.stringify(bodyData, null, 2));
+          alert("API URL chưa cấu hình. JSON preview đã được copy vào clipboard. Kiểm tra console để xem chi tiết.");
+        } catch (e) {
+          alert("API URL chưa cấu hình. Xem console để xem body JSON.");
+        }
+        return;
+      }
 
-    const res = await fetch(url);
-    const csv = await res.text();
-
-    const rows = csv.split("\n").map(r => r.split(","));
-
-    let html = `
-        <tr>
-            <th>Thứ</th><th>Ngày</th><th>Giờ</th>
-            <th>Lớp</th><th>Kỹ năng</th><th>Giáo viên</th><th>Email</th>
-        </tr>
-    `;
-
-    for (let i = 1; i < rows.length; i++) {
-        let r = rows[i];
-        html += `
-            <tr>
-                <td>${r[0]}</td>
-                <td>${r[1]}</td>
-                <td>${r[2]}</td>
-                <td><strong>${r[3]}</strong></td>
-                <td>${r[4]}</td>
-                <td>${r[5]}</td>
-                <td><a class="email-link">${r[6]}</a></td>
-            </tr>
-        `;
+      // send to API
+      try {
+        const res = await fetch(API_URL, {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body: JSON.stringify(bodyData)
+        });
+        const data = await res.json();
+        alert("Đã gửi. Kết quả: " + JSON.stringify(data));
+      } catch (e) {
+        console.error("Lỗi gửi:", e);
+        alert("Gửi thất bại. Kiểm tra console.");
+      }
     }
 
-    document.querySelector("#timetable").innerHTML = html;
-}
+    /*******************************
+     *  Init & event wiring
+     *******************************/
+    document.addEventListener("DOMContentLoaded", async () => {
+      // default month = current month
+      const today = new Date();
+      const defaultMonth = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}`;
+      document.getElementById("month").value = defaultMonth;
 
-loadSheet();
-</script>
+      // render weeks for default month
+      renderWeekDropdown(defaultMonth);
 
+      // fetch CSV
+      await fetchAndParseCSV();
 
-<body>
+      // render initial timetable for first week
+      const initialWeekId = document.getElementById("week").value || "1";
+      renderTimetableForWeek(initialWeekId);
 
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <div class="logo">APOLLO ENGLISH</div>
-        <ul>
-            <li>Home</li>
-            <li>Classes</li>
-            <li>Subjects</li>
-            <li>Teachers</li>
-            <li>Schedule</li>
-        </ul>
-    </div>
+      // event handlers
+      document.getElementById("month").addEventListener("change", (e) => {
+        renderWeekDropdown(e.target.value);
+        // after re-rendering weeks, refresh table for new selected week
+        const wk = document.getElementById("week").value;
+        updateSubtitle();
+        renderTimetableForWeek(wk);
+      });
 
-    <!-- SEARCH -->
-    <div class="search-container">
-        <div class="search-box">
-            <input id="searchInput" type="text" placeholder="Tìm lớp, kỹ năng, giáo viên, ngày hoặc thứ..." onkeyup="searchTable()">
-        </div>
-    </div>
+      document.getElementById("week").addEventListener("change", (e) => {
+        updateSubtitle();
+        renderTimetableForWeek(e.target.value);
+      });
 
-    <!-- PAGINATION -->
-    <div style="text-align:center; margin-bottom:20px;">
-        <button class="page-btn" onclick="showPage(1)">1</button>
-        <button class="page-btn" onclick="showPage(2)">2</button>
-        <button class="page-btn" onclick="showPage(3)">3</button>
-    </div>
- <label for="week">Chọn tuần:</label>
-<select id="week">
-    <option value="Tuần 1 / Tháng 11 (01/11 – 08/11)">Tuần 1 / Tháng 11 (01/11 – 08/11)</option>
-    <option value="Tuần 2 / Tháng 11 (09/11 – 15/11)">Tuần 2 / Tháng 11 (09/11 – 15/11)</option>
-    <option value="Tuần 3 / Tháng 11 (16/11 – 23/11)">Tuần 3 / Tháng 11 (16/11 – 23/11)</option>
-    <option value="Tuần 4 / Tháng 11 (24/11 – 30/11)">Tuần 4 / Tháng 11 (24/11 – 30/11)</option>
-</select>
-<label for="month">Chọn tháng:</label>
-<input type="month" id="month" value="2024-11">
+      document.getElementById("refreshBtn").addEventListener("click", async () => {
+        await fetchAndParseCSV();
+        renderTimetableForWeek(document.getElementById("week").value);
+      });
 
-<label for="week">Chọn tuần:</label>
-<select id="week"></select>
-    <!-- PAGE 1 — TUẦN 1 -->
-    <div class="timetable-container page" id="page1">
-        <div class="timetable-header">
-            <div class="timetable-title">LỊCH TUẦN</div>
-            <div class="timetable-subtitle">01/12 – 07/12/2025</div>
-        </div>
+      document.getElementById("searchInput").addEventListener("input", () => applySearchFilter());
 
-        <div class="table-wrapper">
-            <table id="timetable">
-
-                <tr>
-                    <th>Thứ</th><th>Ngày</th><th>Giờ</th>
-                    <th>Lớp</th><th>Kỹ năng</th><th>Giáo viên</th><th>Email</th>
-                </tr>
-
-                <!-- THỨ 2 -->
-                <tr class="day-off">
-                    <td>Thứ 2</td><td>01/12</td><td colspan="5">Empty</td>
-                </tr>
-
-                <!-- THỨ 3 -->
-                <tr>
-                    <td>Thứ 3</td><td>02/12</td>
-                    <td>10:00 – 11:30</td>
-                    <td><strong>Movers 3B</strong></td>
-                    <td><span class="skill-badge skill-reading">Reading</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 4 -->
-                <tr>
-                    <td>Thứ 4</td><td>03/12</td>
-                    <td>13:30 – 15:00</td>
-                    <td><strong>Starters 2A</strong></td>
-                    <td><span class="skill-badge skill-listening">Listening</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 5 -->
-                <tr>
-                    <td>Thứ 5</td><td>04/12</td>
-                    <td>20:00 – 21:30</td>
-                    <td><strong>Starters 2A</strong></td>
-                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 6 -->
-                <tr>
-                    <td>Thứ 6</td><td>05/12</td>
-                    <td>15:00 – 16:30</td>
-                    <td><strong>Movers 3B</strong></td>
-                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link" href="#">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 7 -->
-                <tr>
-                    <td>Thứ 7</td><td>06/12</td>
-                    <td>08:30 – 10:00</td>
-                    <td><strong>Flyers 1C</strong></td>
-                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Thứ 7</td><td>06/12</td>
-                    <td>14:00 – 15:30</td>
-                    <td><strong>KET Prep 4A</strong></td>
-                    <td><span class="skill-badge skill-writing">Writing</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Thứ 7</td><td>06/12</td>
-                    <td>20:00 – 21:30</td>
-                    <td><strong>Communication Kids</strong></td>
-                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- CHỦ NHẬT -->
-                <tr>
-                    <td>Chủ nhật</td><td>07/12</td>
-                    <td>08:30 – 10:00</td>
-                    <td><strong>Starters 1D</strong></td>
-                    <td><span class="skill-badge skill-listening">Listening</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Chủ nhật</td><td>07/12</td>
-                    <td>10:15 – 11:45</td>
-                    <td><strong>Movers 2A</strong></td>
-                    <td><span class="skill-badge skill-reading">Reading</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Chủ nhật</td><td>07/12</td>
-                    <td>19:00 – 20:30</td>
-                    <td><strong>Flyers 1C</strong></td>
-                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-            </table>
-        </div>
-    </div>
-
-    <!-- PAGE 2 — TUẦN 2 -->
-    <div class="timetable-container page" id="page2">
-        <div class="timetable-header">
-            <div class="timetable-title">LỊCH TUẦN</div>
-            <div class="timetable-subtitle">08/12 – 14/12/2025</div>
-        </div>
-
-        <div class="table-wrapper">
-            <table>
-
-                <tr>
-                    <th>Thứ</th><th>Ngày</th><th>Giờ</th>
-                    <th>Lớp</th><th>Kỹ năng</th><th>Giáo viên</th><th>Email</th>
-                </tr>
-
-                <!-- THỨ 2 – DẠY SÁNG -->
-                <tr>
-                    <td>Thứ 2</td>
-                    <td>08/12</td>
-                    <td>19:30 – 21:00</td>
-                    <td><strong>Starters 2A</strong></td>
-                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 3 – DẠY TỐI -->
-                <tr>
-                    <td>Thứ 3</td>
-                    <td>09/12</td>
-                    <td>19:30 – 21:00</td>
-                    <td><strong>Movers 3B</strong></td>
-                    <td><span class="skill-badge skill-reading">Reading</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 4 -->
-                <tr>
-                    <td>Thứ 4</td>
-                    <td>10/12</td>
-                    <td>13:30 – 15:00</td>
-                    <td><strong>Starters 2A</strong></td>
-                    <td><span class="skill-badge skill-listening">Listening</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 5 – NGHỈ -->
-                <tr >
-                    <td>Thứ 5</td>
-                    <td>11/12</td>
-                    <td>19:30 – 21:00</td>
-                    <td><strong>Starters 2A</strong></td>
-                    <td><span class="skill-badge skill-listening">Listening</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 6 -->
-                <tr>
-                    <td>Thứ 6</td>
-                    <td>12/12</td>
-                    <td>15:00 – 16:30</td>
-                    <td><strong>Movers 3B</strong></td>
-                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- THỨ 7 (GIỮ NGUYÊN) -->
-                <tr>
-                    <td>Thứ 7</td>
-                    <td>13/12</td>
-                    <td>08:30 – 10:00</td>
-                    <td><strong>Flyers 1C</strong></td>
-                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Thứ 7</td>
-                    <td>13/12</td>
-                    <td>14:00 – 15:30</td>
-                    <td><strong>KET Prep 4A</strong></td>
-                    <td><span class="skill-badge skill-writing">Writing</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Thứ 7</td>
-                    <td>13/12</td>
-                    <td>20:00 – 21:30</td>
-                    <td><strong>Communication Kids</strong></td>
-                    <td><span class="skill-badge skill-speaking">Speaking</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <!-- CHỦ NHẬT -->
-                <tr>
-                    <td>Chủ nhật</td>
-                    <td>14/12</td>
-                    <td>08:30 – 10:00</td>
-                    <td><strong>Starters 1D</strong></td>
-                    <td><span class="skill-badge skill-listening">Listening</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Chủ nhật</td>
-                    <td>14/12</td>
-                    <td>10:15 – 11:45</td>
-                    <td><strong>Movers 2A</strong></td>
-                    <td><span class="skill-badge skill-reading">Reading</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-                <tr>
-                    <td>Chủ nhật</td>
-                    <td>14/12</td>
-                    <td>19:00 – 20:30</td>
-                    <td><strong>Flyers 1C</strong></td>
-                    <td><span class="skill-badge skill-grammar">Grammar</span></td>
-                    <td>Nguyễn Thị Tuyết Mai</td>
-                    <td><a class="email-link">nguyenthituyetmaiNTM0925@apollo.edu.vn</a></td>
-                </tr>
-
-            </table>
-        </div>
-    </div>
-
-    <!-- PAGE 3 (TRỐNG) -->
-    <div class="timetable-container page" id="page3">
-        <h2 style="text-align:center;">Trang 3 – Chưa có dữ liệu</h2>
-    </div>
-
-    <!-- JS -->
-    <script>
-        function showPage(num) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = "none");
-            document.getElementById("page" + num).style.display = "block";
-        }
-
-        showPage(1); // hiện trang 1 ngay khi load
-
-        function searchTable() {
-            let filter = document.getElementById("searchInput").value.toLowerCase();
-            document.querySelectorAll("table tr").forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
-            });
-        }
-    </script>
+      document.getElementById("submitBtn").addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        await submitForm();
+      });
+    });
+  </script>
 
 </body>
 </html>
