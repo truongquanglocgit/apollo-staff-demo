@@ -147,6 +147,106 @@
 
     </style>
 </head>
+    <label for="week">Chọn tuần:</label>
+<select id="week">
+    <option value="Tuần 1 / Tháng 11 (01/11 – 08/11)">Tuần 1 / Tháng 11 (01/11 – 08/11)</option>
+    <option value="Tuần 2 / Tháng 11 (09/11 – 15/11)">Tuần 2 / Tháng 11 (09/11 – 15/11)</option>
+    <option value="Tuần 3 / Tháng 11 (16/11 – 23/11)">Tuần 3 / Tháng 11 (16/11 – 23/11)</option>
+    <option value="Tuần 4 / Tháng 11 (24/11 – 30/11)">Tuần 4 / Tháng 11 (24/11 – 30/11)</option>
+</select>
+<label for="month">Chọn tháng:</label>
+<input type="month" id="month" value="2024-11">
+
+<label for="week">Chọn tuần:</label>
+<select id="week"></select>
+
+<script>
+// Hàm sinh danh sách tuần trong tháng
+function generateWeeks(year, month) {
+    const weeks = [];
+    const firstDay = new Date(year, month - 1, 1);
+    const lastDay = new Date(year, month, 0);
+
+    let start = new Date(firstDay);
+    let end = new Date(firstDay);
+
+    while (start <= lastDay) {
+        // Mỗi tuần = 7 ngày
+        end = new Date(start);
+        end.setDate(end.getDate() + 6);
+
+        // Nếu vượt quá cuối tháng thì giới hạn lại
+        if (end > lastDay) end = lastDay;
+
+        const weekNumber = weeks.length + 1;
+
+        const startStr = start.toLocaleDateString("vi-VN");
+        const endStr = end.toLocaleDateString("vi-VN");
+
+        weeks.push({
+            id: weekNumber,
+            label: `Tuần ${weekNumber} / Tháng ${month} (${startStr} – ${endStr})`
+        });
+
+        // Nhảy sang tuần tiếp theo
+        start = new Date(end);
+        start.setDate(start.getDate() + 1);
+    }
+
+    return weeks;
+}
+
+// Hàm render dropdown tuần
+function updateWeekDropdown() {
+    const monthInput = document.getElementById("month").value;
+    const [year, month] = monthInput.split("-");
+
+    const weeks = generateWeeks(parseInt(year), parseInt(month));
+    const weekSelect = document.getElementById("week");
+
+    weekSelect.innerHTML = ""; // Xóa hiện tại
+
+    weeks.forEach(w => {
+        const option = document.createElement("option");
+        option.value = w.label;
+        option.textContent = w.label;
+        weekSelect.appendChild(option);
+    });
+}
+
+// Khi chọn tháng → cập nhật tuần
+document.getElementById("month").addEventListener("change", updateWeekDropdown);
+
+// Khởi tạo lúc load trang
+updateWeekDropdown();
+</script>
+
+<script>
+function submitForm() {
+    const ten = document.getElementById("ten").value;
+    const noidung = document.getElementById("noidung").value;
+    const nguoithuchien = document.getElementById("nguoithuchien").value;
+    const trangthai = document.getElementById("trangthai").value;
+    const tuan = document.getElementById("week").value; // LẤY GIÁ TRỊ TUẦN
+
+    const bodyData = {
+        ten_cong_viec: ten,
+        noi_dung: noidung,
+        nguoi_thuc_hien: nguoithuchien,
+        trang_thai: trangthai,
+        tuan: tuan   // GỬI LÊN API
+    };
+
+    fetch("URL_API_CUA_BAN", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyData)
+    })
+    .then(res => res.json())
+    .then(res => console.log("Đã gửi:", res))
+    .catch(err => console.error(err));
+}
+</script>
 <script>
 async function loadSheet() {
     const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTY5x85A0MqPbBoK0WPko8WYGjyuAWn7mIXiVJ6dGvXMtShWWyLB9Y5hnZU6YHT4hh60uQSSL5JPESB/pub?output=csv"; // link CSV của bạn
